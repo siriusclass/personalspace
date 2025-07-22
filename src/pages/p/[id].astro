@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import { createHashId } from '../../utils/hash-id';
+import BaseLayout from '../../layouts/MainGridLayout.astro';
+import PostMetadata from "../../components/PostMeta.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  
+  return posts.map((post) => ({
+    params: { id: createHashId(post.slug) },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<BaseLayout title={createHashId(post.slug)}>
+  <main class="max-w-4xl mx-auto px-4 py-8">
+
+    <article
+      class="transition flex flex-col rounded-[var(--radius-large)] bg-[var(--card-bg)] shadow-md py-8 px-6 md:px-10 text-[var(--text)]"
+    >
+      <header class="mb-6">
+        {post.data.title && (
+          <h1 class="text-3xl md:text-4xl font-bold mb-2 text-[var(--heading)]">
+            {post.data.title}
+          </h1>
+        )}
+
+        { <!-- metadata -->
+        <PostMetadata published={new Date(post.data.published)} class="mb-4" />}
+      </header>
+
+      <div class="text-75 mb-3.5 pr-4 text-justify font-sans">
+        <Content />
+      </div>
+    </article>
+
+  </main>
+</BaseLayout>
