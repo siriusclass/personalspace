@@ -1,23 +1,28 @@
----
 backend:
-  name: git-gateway
+  name: github
+  repo: siriusclass/personalspace  # Ganti dengan repo Anda
   branch: main
-media_folder: public/images
-public_folder: /images
+
+media_folder: "public/images"
+public_folder: "/images"
+
 collections:
-  - name: posts
-    label: Blog Posts
-    folder: src/content/posts
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "src/content/posts"
     create: true
     slug: "{{slug}}"
-    extension: md
-    format: frontmatter
+    extension: "md"
+    format: "frontmatter"
     fields:
-      - label: Published Date
-        name: published
-        widget: datetime
-        date_format: YYYY-MM-DD
+      - label: "Title"
+        name: "title"
+        widget: "string"
+      - label: "Published Date"
+        name: "published"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
         time_format: false
-      - label: Body
-        name: body
-        widget: markdown
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
