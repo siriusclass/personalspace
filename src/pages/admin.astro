@@ -1,0 +1,47 @@
+---
+// src/pages/admin.astro
+// Decap CMS dengan GitHub backend
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Manager</title>
+</head>
+<body>
+  <script is:inline>
+    window.CMS_MANUAL_INIT = true;
+  </script>
+  <script is:inline src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script is:inline>
+    CMS.init({
+      config: {
+        backend: {
+          name: 'github',
+          repo: 'siriusclass/personalspace', // Ganti dengan repo GitHub kamu
+          branch: 'main'
+        },
+        media_folder: 'public/images',
+        public_folder: '/images',
+        collections: [
+          {
+            name: 'posts',
+            label: 'Blog Posts',
+            folder: 'src/content/posts',
+            create: true,
+            slug: '{{slug}}',
+            extension: 'md',
+            format: 'frontmatter',
+            fields: [
+              { label: 'Published Date', name: 'published', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false },
+              { label: 'Body', name: 'body', widget: 'markdown' }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
+</body>
+</html>
