@@ -14,5 +14,5 @@ collections:
     extension: "md"
     format: "frontmatter"
     fields:
-      - { label: "Published Date", name: "published", widget: "datetime", date_format: "YYYY-MM-DD", time_format: true }
+      - { label: "Published Date", name: "published", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Body", name: "body", widget: "markdown" }
