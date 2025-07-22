@@ -1,16 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
-import { createHashId } from '../../utils/hash-id';
-import BaseLayout from '../../layouts/MainGridLayout.astro';
+import { getCollection } from "astro:content";
+import { createHashId } from "../../utils/hash-id";
+import BaseLayout from "../../layouts/MainGridLayout.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  
-  return posts.map((post) => ({
-    params: { id: createHashId(post.slug) },
-    props: { post },
-  }));
+	const posts = await getCollection("posts");
+
+	return posts.map((post) => ({
+		params: { id: createHashId(post.slug) },
+		props: { post },
+	}));
 }
 
 const { post } = Astro.props;

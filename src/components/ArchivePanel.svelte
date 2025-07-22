@@ -1,70 +1,74 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-	import I18nKey from "../i18n/i18nKey";
-	import { i18n } from "../i18n/translation";
+import { onMount } from "svelte";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
 
-	export let tags: string[];
-	export let categories: string[];
-	export let sortedPosts: Post[] = [];
+export let tags: string[];
+export let categories: string[];
+export let sortedPosts: Post[] = [];
 
-	const params = new URLSearchParams(window.location.search);
-	tags = params.has("tag") ? params.getAll("tag") : [];
-	categories = params.has("category") ? params.getAll("category") : [];
-	const uncategorized = params.get("uncategorized");
+const params = new URLSearchParams(window.location.search);
+tags = params.has("tag") ? params.getAll("tag") : [];
+categories = params.has("category") ? params.getAll("category") : [];
+const uncategorized = params.get("uncategorized");
 
-	interface Post {
-		slug: string;
-		data: {
-			title: string;
-			tags: string[];
-			category?: string;
-			published: Date;
-		};
-	}
+interface Post {
+	slug: string;
+	data: {
+		title: string;
+		tags: string[];
+		category?: string;
+		published: Date;
+	};
+}
 
-	interface Group {
-		year: number;
-		posts: Post[];
-	}
+interface Group {
+	year: number;
+	posts: Post[];
+}
 
-	let groups: Group[] = [];
+let groups: Group[] = [];
 
-	onMount(() => {
-		let filteredPosts: Post[] = sortedPosts;
+onMount(() => {
+	let filteredPosts: Post[] = sortedPosts;
 
-		if (tags.length > 0) {
-			filteredPosts = filteredPosts.filter((post) =>
+	if (tags.length > 0) {
+		filteredPosts = filteredPosts.filter(
+			(post) =>
 				Array.isArray(post.data.tags) &&
-				post.data.tags.some((tag) => tags.includes(tag))
-			);
-		}
+				post.data.tags.some((tag) => tags.includes(tag)),
+		);
+	}
 
-		if (categories.length > 0) {
-			filteredPosts = filteredPosts.filter(
-				(post) => post.data.category && categories.includes(post.data.category)
-			);
-		}
+	if (categories.length > 0) {
+		filteredPosts = filteredPosts.filter(
+			(post) => post.data.category && categories.includes(post.data.category),
+		);
+	}
 
-		if (uncategorized) {
-			filteredPosts = filteredPosts.filter((post) => !post.data.category);
-		}
+	if (uncategorized) {
+		filteredPosts = filteredPosts.filter((post) => !post.data.category);
+	}
 
-		const grouped = filteredPosts.reduce((acc, post) => {
+	const grouped = filteredPosts.reduce(
+		(acc, post) => {
 			const year = post.data.published.getFullYear();
 			if (!acc[year]) acc[year] = [];
 			acc[year].push(post);
 			return acc;
-		}, {} as Record<number, Post[]>);
+		},
+		{} as Record<number, Post[]>,
+	);
 
-		const groupedPostsArray = Object.keys(grouped).map((yearStr) => ({
-			year: Number(yearStr),
-			posts: grouped[Number(yearStr)],
-		}));
+	const groupedPostsArray = Object.keys(grouped).map((yearStr) => ({
+		year: Number(yearStr),
+		posts: grouped[Number(yearStr)],
+	}));
 
-		groupedPostsArray.sort((a, b) => b.year - a.year);
+	groupedPostsArray.sort((a, b) => b.year - a.year);
 
-		groups = groupedPostsArray;
-	});
+	groups = groupedPostsArray;
+});
 </script>
 
 <div class="card-base px-8 py-6">

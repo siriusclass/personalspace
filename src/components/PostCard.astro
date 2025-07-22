@@ -12,10 +12,7 @@ interface Props {
 	entry: CollectionEntry<"posts">;
 	style?: string;
 }
-const {
-	entry,
-	style,
-} = Astro.props;
+const { entry, style } = Astro.props;
 const className = Astro.props.class;
 
 // Ambil data dari entry
