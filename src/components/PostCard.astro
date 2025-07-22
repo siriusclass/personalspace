@@ -2,10 +2,10 @@
 import type { CollectionEntry } from "astro:content";
 import path from "node:path";
 import { Icon } from "astro-icon/components";
+import { createHashId } from "../utils/hash-id.ts";
 import { getDir } from "../utils/url-utils";
 import ImageWrapper from "./misc/ImageWrapper.astro";
 import PostMetadata from "./PostMeta.astro";
-import { createHashId } from "../utils/hash-id.ts";
 
 interface Props {
 	class?: string;

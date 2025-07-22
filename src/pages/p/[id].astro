@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import { createHashId } from "../../utils/hash-id";
-import BaseLayout from "../../layouts/MainGridLayout.astro";
 import PostMetadata from "../../components/PostMeta.astro";
+import BaseLayout from "../../layouts/MainGridLayout.astro";
+import { createHashId } from "../../utils/hash-id";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("posts");
